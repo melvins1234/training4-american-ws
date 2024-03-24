@@ -66,17 +66,17 @@
 			<version>8.0.30</version>
 		</dependency>
 		<dependency>
-			<groupId>eb1e41bb-37ae-427b-9624-564d53149400</groupId>
-			<artifactId>american-flights-api</artifactId>
-			<version>1.0.1</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.9.1</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>eb1e41bb-37ae-427b-9624-564d53149400</groupId>
+			<artifactId>american-flights-api</artifactId>
+			<version>1.0.2</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 

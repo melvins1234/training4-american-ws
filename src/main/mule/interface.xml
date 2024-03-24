@@ -133,68 +133,10 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="get:\flights:american-flights-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-[
-  {
-    ID: 1,
-    code: "ER38sd",
-    price: 400,
-    departureDate: "2017/07/26",
-    origin: "CLE",
-    destination: "SFO",
-    emptySeats: 0,
-    plane: {
-      "type": "Boeing 737",
-      totalSeats: 150
-    }
-  }, 
-  {
-    ID: 2,
-    code: "ER45if",
-    price: 540.99,
-    departureDate: "2017/07/27",
-    origin: "SFO",
-    destination: "ORD",
-    emptySeats: 54,
-    plane: {
-      "type": "Boeing 777",
-      totalSeats: 300
-    }
-  }
-]]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="403493a9-eb06-43f3-bc95-56e9f4c507e9" name="getFlights" />
     </flow>
     <flow name="get:\flights\(ID):american-flights-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  ID: 1,
-  code: "ER38sd",
-  price: 400,
-  departureDate: "2017/07/26",
-  origin: "CLE",
-  destination: "SFO",
-  emptySeats: 0,
-  plane: {
-    "type": "Boeing 737",
-    totalSeats: 150
-  }
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="ec318963-40de-451a-9432-c38119638009" name="getFlightsByID" />
     </flow>
     <flow name="post:\flights:application\json:american-flights-api-config">
         <ee:transform doc:name="Transform Message">
@@ -204,6 +146,18 @@ output application/json
 ---
 {
   message: "Flight added (but not really)"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="put:\flights:application\json:american-flights-api-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Flight updated (but not really)."
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>

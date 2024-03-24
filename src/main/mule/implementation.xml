@@ -39,8 +39,31 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 			</ee:message>
 		</ee:transform>
 	</flow>
-	<flow name="training4-american-wsFlow" doc:id="cee2ab78-f685-443a-be48-47a43f02c5ed" >
-		<http:listener doc:name="Listener" doc:id="ff252d39-34f2-4efc-b8f2-767041209435" config-ref="HTTP_Listener_config" path="/flights" allowedMethods="POST"/>
-		<set-payload value='{"message": "Flight added (but not really)"}' doc:name="Set Payload" doc:id="5e514132-d76d-4f0f-a952-1f228c7415d9" />
+	<flow name="getFlights" doc:id="3582b708-38b4-430d-9280-c4f6baf98d13" >
+		<http:listener doc:name="Listener" doc:id="c6ff2363-e645-4bae-b8ad-91a3552a8611" config-ref="HTTP_Listener_config" path="/flights/{ID}" allowedMethods="GET" />
+		<db:select doc:name="Select" doc:id="0252536f-5003-4718-9011-319015d95ab3" config-ref="Database_Config" >
+			<db:sql ><![CDATA[SELECT * FROM american]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'ID': attributes.uriParams.ID}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="77605f16-5227-446b-a0a2-7e7ff1065810" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	ID: payload01.ID,
+	code: (payload01.code1 default "") ++ (payload01.code2 default ""),
+	price: (payload01.price default 0) + (payload01.price default 0),
+	departureDate: payload01.takeOffDate as String default "",
+	origin: payload01.fromAirport default "",
+	destination: payload01.toAirport default "",
+	emptySeats: payload01.seatsAvailable default 0,
+	plane: {
+		"type": payload01.planeType default "",
+		totalSeats: payload01.totalSeats default 0
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
